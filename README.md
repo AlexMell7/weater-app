@@ -202,6 +202,7 @@ docker run -d -p 8080:8080 --name weather alexmel7/weather-app:latest
 ```bash
 docker logs weather
 ```
+![alt text](image-3.png)
 ### Rozmiar i warstwy obrazu
 ```bash
 docker images alexmel7/weather-app:latest
