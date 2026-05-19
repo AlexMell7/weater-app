@@ -1,19 +1,19 @@
 # Zadanie 1 - Część Obowiązkowa
 
 ## Autor
+
 Oleksandr Melnyk
 
 ## Kod oprogramowania (Aplikacja Pogodowa)
 
-Aplikacja została napisana w języku Go.  
-Serwuje interfejs webowy oraz pobiera dane pogodowe z zewnętrznego API wttr.in.  
-Po uruchomieniu aplikacja zapisuje w logach:
+Aplikacja została napisana w języku Go.Serwuje interfejs webowy oraz pobiera dane pogodowe z zewnętrznego API wttr.in.Po uruchomieniu aplikacja zapisuje w logach:
+
 - datę uruchomienia,
 - nazwę autora,
 - numer portu HTTP.
 
-
 1.Plik main.go
+
 ```go
 package main
 
@@ -82,7 +82,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		<div class="container">
 			<h2>Aplikacja Pogodowa</h2>
 			<p>Autor: %s</p>
-			
+
 			<label for="city">Wybierz miasto:</label>
 			<select id="city">
 				<option value="Lublin,Poland">Lublin (Polska)</option>
@@ -91,7 +91,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				<option value="Berlin,Germany">Berlin (Niemcy)</option>
 				<option value="Paris,France">Paryż (Francja)</option>
 			</select>
-			
+
 			<button onclick="getWeather()">Sprawdź pogodę</button>
 			<div id="result"></div>
 		</div>
@@ -101,12 +101,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				const location = document.getElementById('city').value;
 				const resultDiv = document.getElementById('result');
 				resultDiv.innerHTML = "Pobieranie danych...";
-				
+
 				try {
 					const response = await fetch('/api/weather?location=' + encodeURIComponent(location));
 					if (!response.ok) throw new Error('Błąd pobierania');
 					const data = await response.json();
-					
+	
 					resultDiv.innerHTML = "Aktualna temperatura: " + data.temp + "°C<br>" +
 										  "Odczuwalna: " + data.feels + "°C<br>" +
 										  "Wilgotność: " + data.humidity + "%%";
@@ -154,6 +154,7 @@ func handleWeather(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 ```
+
 # 2. Plik Dockerfile
 
 ```dockerfile
@@ -197,21 +198,30 @@ docker build -t alexmel7/weather-app:latest .
 ```bash
 docker run -d -p 8080:8080 --name weather alexmel7/weather-app:latest
 ```
+
 ### Sposób uzyskania logów
 
 ```bash
 docker logs weather
 ```
+
 ![alt text](image-3.png)
+
 ### Rozmiar i warstwy obrazu
+
 ```bash
 docker images alexmel7/weather-app:latest
 ```
+
 ![Rozmiar obrazu](image-1.png)
 
 ```bash
 docker history alexmel7/weather-app:latest
 ```
+
 ![Historia warstw](image.png)
+
 ## 4. Potwierdzenie działania aplikacji
+
 ![Działanie aplikacji](image-2.png)
+
