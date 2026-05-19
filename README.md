@@ -1,9 +1,16 @@
-Zadanie 1 - Część Obowiązkowa
-Autor - Oleksandr Melnyk
-Kod oprogramowania(Aplikacja Pogodowa)
-Aplikacja została napisana w języku Go. 
-Serwuje interfejs webowy i pobiera dane z zewnętrznego API `wttr.in`.
-Po uruchomieniu pozostawia w logach wymagane informacje.
+# Zadanie 1 - Część Obowiązkowa
+
+## Autor
+Oleksandr Melnyk
+
+## Kod oprogramowania (Aplikacja Pogodowa)
+
+Aplikacja została napisana w języku Go.  
+Serwuje interfejs webowy oraz pobiera dane pogodowe z zewnętrznego API wttr.in.  
+Po uruchomieniu aplikacja zapisuje w logach:
+- datę uruchomienia,
+- nazwę autora,
+- numer portu HTTP.
 
 
 1.Plik main.go
