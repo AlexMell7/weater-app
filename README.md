@@ -147,34 +147,63 @@ func handleWeather(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 ```
-2.Plik Dockerfile:
-//Etap 1: Builder
+# 2. Plik Dockerfile
+
+```dockerfile
+# Etap 1: Builder
 FROM golang:alpine AS builder
+
 RUN apk --no-cache add ca-certificates
+
 WORKDIR /app
+
 COPY main.go .
-//Kompilacja statyczna, bez informacji debugowania (optymalizacja wielkości)
+
+# Kompilacja statyczna, bez informacji debugowania (optymalizacja wielkości)
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o weather-app main.go
-//Etap 2: Pusty obraz wynikowy 
+
+# Etap 2: Pusty obraz wynikowy
 FROM scratch
+
 LABEL org.opencontainers.image.authors="Oleksandr Melnyk" \
       org.opencontainers.image.title="Weather-App" \
       org.opencontainers.image.description="Minimalistyczna aplikacja pogodowa na laboratoria PAwChO"
+
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /app/weather-app /weather-app
+
 EXPOSE 8080
+
 ENTRYPOINT ["/weather-app"]
+```
 
-3.Polecenia niezbędne do uruchomienia i weryfikacji
-Zbudowanie obrazu:
-    docker build -t alexmel7/weather-app:latest .
-Uruchomienie kontenera:
-    docker run -d -p 8080:8080 --name weather alexmel7/weather-app:latest
-Sposób uzyskania logów:
-    docker logs weather
-Rozmiar i warstwy obrazu:
-    docker images alexmel7/weather-app:latest  ![alt text](image-1.png)
-    docker history alexmel7/weather-app:latest  ![alt text](image.png)
+## 3. Polecenia niezbędne do uruchomienia i weryfikacji
 
-4.Potwierdzenie działania aplikacji
-![alt text](image-2.png)
+### Zbudowanie obrazu
+
+```bash
+docker build -t alexmel7/weather-app:latest .
+```
+
+### Uruchomienie kontenera
+
+```bash
+docker run -d -p 8080:8080 --name weather alexmel7/weather-app:latest
+```
+### Sposób uzyskania logów
+
+```bash
+docker logs weather
+```
+### Rozmiar i warstwy obrazu
+```bash
+docker images alexmel7/weather-app:latest
+```
+![Rozmiar obrazu](image-1.png)
+
+```bash
+docker history alexmel7/weather-app:latest
+```
+![Historia warstw](image.png)
+## 4. Potwierdzenie działania aplikacji
+![Działanie aplikacji](image-2.png)
